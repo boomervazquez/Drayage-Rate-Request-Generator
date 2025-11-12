@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drayage Email Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 4px;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .email-preview {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #333;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 Drayage Email Generator</h1>
+        <p class="subtitle">Generate 3 Outlook email drafts for drayage requests</p>
+
+        <form id="emailForm">
+            <div class="form-group">
+                <label for="origin">Origin Location:</label>
+                <input type="text" id="origin" name="origin" placeholder="e.g., Los Angeles, CA" required>
+            </div>
+
+            <div class="form-group">
+                <label for="destination">Destination Location:</label>
+                <input type="text" id="destination" name="destination" placeholder="e.g., Chicago, IL" required>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-primary">Generate 3 Email Drafts</button>
+                <button type="button" class="btn-secondary" onclick="clearForm()">Clear</button>
+            </div>
+        </form>
+
+        <div id="successMessage" class="success-message">
+            ✓ Opening 3 email drafts in Outlook...
+        </div>
+
+        <div class="info-box">
+            <p><strong>How it works:</strong></p>
+            <p>1. Enter your origin and destination locations above<br>
+            2. Click "Generate 3 Email Drafts"<br>
+            3. Three Outlook drafts will open automatically<br>
+            4. Review and send each email as needed</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const origin = document.getElementById('origin').value.trim();
+            const destination = document.getElementById('destination').value.trim();
+            
+            if (!origin || !destination) {
+                alert('Please fill in both origin and destination locations.');
+                return;
+            }
+            
+            // Create the email content
+            const subject = `Drayage Request from ${origin} to ${destination}`;
+            const body = `Hello,
+ 
+When possible, could you please help to quote the below drayage move using our fuel and the same validity/terms as our recent RFQ?
+ 
+${origin}
+To
+${destination}
+ 
+Thanks in advance for your help,
+
+Leandro (Boomer) Vazquez
+Assistant Manager
+K-Apex (SFO) - 877 Mahler Rd. 2nd Floor, Burlingame, CA 94010
+D 1 650 754 6744 | T 1 650 589 2575  | M 1 802 355 1998 | E Leandro.Vazquez@kln.com THE ONE · IN ASIA  | www.k-apex.kln.com`;
+            
+            const cc = 'US.KApex.FCL.Trucking@KLN.COM';
+            
+            // Encode the email content for mailto link
+            const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&cc=${encodeURIComponent(cc)}&body=${encodeURIComponent(body)}`;
+            
+            // Open 3 separate email drafts with a small delay between each
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    window.open(mailtoLink, '_blank');
+                }, i * 500); // 500ms delay between each
+            }
+            
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 5000);
+        });
+        
+        function clearForm() {
+            document.getElementById('emailForm').reset();
+            document.getElementById('origin').focus();
+        }
+        
+        // Focus on first input when page loads
+        window.addEventListener('load', function() {
+            document.getElementById('origin').focus();
+        });
+    </script>
+</body>
+</html>
