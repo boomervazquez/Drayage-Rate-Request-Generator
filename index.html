@@ -179,8 +179,9 @@
             <p><strong>How it works:</strong></p>
             <p>1. Enter your origin and destination locations above<br>
             2. Click "Generate 3 Email Drafts"<br>
-            3. Three Outlook drafts will open automatically<br>
-            4. Review and send each email as needed</p>
+            3. The Trucker Rate request contacts spreadsheet will open<br>
+            4. Three Outlook drafts will open automatically<br>
+            5. Review and send each email as needed</p>
         </div>
     </div>
 
@@ -217,6 +218,9 @@ D 1 650 754 6744 | T 1 650 589 2575  | M 1 802 355 1998 | E Leandro.Vazquez@kln.
             
             // Encode the email content for mailto link
             const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&cc=${encodeURIComponent(cc)}&body=${encodeURIComponent(body)}`;
+            
+            // Open the SharePoint Excel file first
+            window.open('https://kerryoffice365us-my.sharepoint.com/:x:/r/personal/tavery_kln_com/_layouts/15/Doc.aspx?sourcedoc=%7BDB3DF300-CB51-4CE7-B27A-37F17F1373CA%7D&file=2025-2026%20Trucker%20Rate%20request%20contacts.xlsx&action=default&mobileredirect=true&wdOrigin=OFFICE-OFFICE-METAOS.FILEBROWSER.FILES-FAVORITES', '_blank');
             
             // Open 3 separate email drafts with a small delay between each
             for (let i = 0; i < 3; i++) {
