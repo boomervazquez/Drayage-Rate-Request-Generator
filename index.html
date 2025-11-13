@@ -165,6 +165,11 @@
                 <input type="text" id="destination" name="destination" placeholder="e.g., Chicago, IL" required>
             </div>
 
+            <div class="form-group">
+                <label for="additionalDetails">Additional Details (Optional):</label>
+                <input type="text" id="additionalDetails" name="additionalDetails" placeholder="e.g., Container size, special requirements">
+            </div>
+
             <div class="button-group">
                 <button type="submit" class="btn-primary">Generate 3 Email Drafts</button>
                 <button type="button" class="btn-secondary" onclick="clearForm()">Clear</button>
@@ -191,6 +196,7 @@
             
             const origin = document.getElementById('origin').value.trim();
             const destination = document.getElementById('destination').value.trim();
+            const additionalDetails = document.getElementById('additionalDetails').value.trim();
             
             if (!origin || !destination) {
                 alert('Please fill in both origin and destination locations.');
@@ -199,13 +205,22 @@
             
             // Create the email content
             const subject = `Drayage Request from ${origin} to ${destination}`;
-            const body = `Hello,
+            let body = `Hello,
  
 When possible, could you please help to quote the below drayage move using our fuel and the same validity/terms as our recent RFQ?
  
 ${origin}
 To
-${destination}
+${destination}`;
+
+            // Add additional details if provided
+            if (additionalDetails) {
+                body += `
+ 
+${additionalDetails}`;
+            }
+
+            body += `
  
 Thanks in advance for your help,
 
