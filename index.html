@@ -54,6 +54,12 @@
             font-size: 14px;
         }
 
+        .label-hint {
+            font-weight: normal;
+            color: #888;
+            font-size: 12px;
+        }
+
         input[type="text"] {
             width: 100%;
             padding: 12px 15px;
@@ -147,6 +153,15 @@
             display: none;
             text-align: center;
         }
+
+        .default-cc {
+            background: #e8f4fd;
+            color: #1a5f7a;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-top: 6px;
+        }
     </style>
 </head>
 <body>
@@ -166,6 +181,12 @@
             </div>
 
             <div class="form-group">
+                <label for="additionalCC">Additional CC: <span class="label-hint">(separate multiple emails with commas)</span></label>
+                <input type="text" id="additionalCC" name="additionalCC" placeholder="e.g., john@example.com, jane@example.com (commas or semicolons)">
+                <div class="default-cc">✓ Default CC: US.KApex.FCL.Trucking@KLN.COM</div>
+            </div>
+
+            <div class="form-group">
                 <label for="additionalDetails">Additional Details (Optional):</label>
                 <input type="text" id="additionalDetails" name="additionalDetails" placeholder="e.g., Container size, special requirements">
             </div>
@@ -177,16 +198,17 @@
         </form>
 
         <div id="successMessage" class="success-message">
-            ✓ Opening 3 email drafts in Outlook...
+            ✔ Opening 3 email drafts in Outlook...
         </div>
 
         <div class="info-box">
             <p><strong>How it works:</strong></p>
             <p>1. Enter your origin and destination locations above<br>
-            2. Click "Generate 3 Email Drafts"<br>
-            3. The Trucker Rate request contacts spreadsheet will open<br>
-            4. Three Outlook drafts will open automatically<br>
-            5. Review and send each email as needed</p>
+            2. Add any additional CC recipients (optional)<br>
+            3. Click "Generate 3 Email Drafts"<br>
+            4. The Trucker Rate request contacts spreadsheet will open<br>
+            5. Three Outlook drafts will open automatically<br>
+            6. Review and send each email as needed</p>
         </div>
     </div>
 
@@ -197,6 +219,7 @@
             const origin = document.getElementById('origin').value.trim();
             const destination = document.getElementById('destination').value.trim();
             const additionalDetails = document.getElementById('additionalDetails').value.trim();
+            const additionalCC = document.getElementById('additionalCC').value.trim();
             
             if (!origin || !destination) {
                 alert('Please fill in both origin and destination locations.');
@@ -229,7 +252,13 @@ Operations Manager
 K-Apex (SFO) - 877 Mahler Rd. 2nd Floor, Burlingame, CA 94010
 D 1 650 754 6744 | T 1 650 589 2575  | M 1 802 355 1998 | E Leandro.Vazquez@kln.com THE ONE · IN ASIA  | www.k-apex.kln.com`;
             
-            const cc = 'US.KApex.FCL.Trucking@KLN.COM';
+            // Build CC list - start with default, add user additions
+            // Convert commas to semicolons for Outlook compatibility
+            let cc = 'US.KApex.FCL.Trucking@KLN.COM';
+            if (additionalCC) {
+                const formattedCC = additionalCC.replace(/,/g, ';').replace(/\s*;\s*/g, '; ');
+                cc += '; ' + formattedCC;
+            }
             
             // Encode the email content for mailto link
             const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&cc=${encodeURIComponent(cc)}&body=${encodeURIComponent(body)}`;
